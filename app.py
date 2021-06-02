@@ -175,8 +175,8 @@ fig_transmission.update_layout(
 df_covid_age.drop('ccgcode',axis=1,inplace=True)
 df_covid_age.drop('ccgname',axis=1,inplace=True)
 
-for i in range(len(df_covid_age.index)):
-    df_covid_age['journeydate'][i] = pd.to_datetime(df_covid_age['journeydate'][i]).strftime('%Y-%m-%d')
+# for i in range(len(df_covid_age.index)):
+#     df_covid_age['journeydate'][i] = pd.to_datetime(df_covid_age['journeydate'][i]).strftime('%Y-%m-%d')
 
 def update_graph_age():
     traces = []
