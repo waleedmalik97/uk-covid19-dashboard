@@ -15,7 +15,8 @@ from requests_html import HTMLSession
 
 USERNAME_PASSWORD_PAIRS = [['username','password'],['zenalytiks','Zenalytiks888']]
 
-app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = dash.Dash(__name__,external_stylesheets=[dbc.themes.BOOTSTRAP])
+app.title = "UK Covid-19 Dashboard"
 auth = dash_auth.BasicAuth(app,USERNAME_PASSWORD_PAIRS)
 server = app.server
 
