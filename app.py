@@ -436,7 +436,7 @@ app.layout = dbc.Container([
                          dcc.Graph(id='global-covid-cases',config= {'displaylogo': False,'displayModeBar':False})
                          ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'}),
 
-                   ],md=4
+                   ],md=4,sm=12,xs=12
                ),
                dbc.Col(
                    [
@@ -457,7 +457,7 @@ app.layout = dbc.Container([
                          ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'}),
 
 
-                   ],md=4
+                   ],md=4,sm=12,xs=12
                ),
 
                dbc.Col(
@@ -474,7 +474,7 @@ app.layout = dbc.Container([
                          )
                          ],style = {'height':'600px','padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px','overflow':'auto'}),
 
-                   ],md=4
+                   ],md=4,sm=12,xs=12
                ),
            ],
            align="center",
@@ -512,7 +512,7 @@ app.layout = dbc.Container([
                        ])
                        ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'}),
 
-                  ],md=4
+                  ],md=4,sm=12,xs=12
               ),
               dbc.Col(
                   [
@@ -530,7 +530,7 @@ app.layout = dbc.Container([
 
 
 
-                  ],md=8
+                  ],md=8,sm=12,xs=12
               ),
           ],
           align="center",
@@ -553,7 +553,7 @@ app.layout = dbc.Container([
                         ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'}),
 
 
-                  ],md=6
+                  ],md=6,sm=12,xs=12
               ),
               dbc.Col(
                   [
@@ -575,7 +575,7 @@ app.layout = dbc.Container([
                         ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'}),
 
 
-                  ],md=6
+                  ],md=6,sm=12,xs=12
               ),
           ],
           align="center",
@@ -612,7 +612,7 @@ app.layout = dbc.Container([
                        dcc.Graph(id='region-graph',config= {'displaylogo': False,'displayModeBar':False})
                     ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'}),
 
-                  ],md=6
+                  ],md=6,sm=12,xs=12
               ),
               dbc.Col(
                   [
@@ -635,7 +635,7 @@ app.layout = dbc.Container([
 
 
 
-                  ],md=6
+                  ],md=6,sm=12,xs=12
               ),
           ],
           align="center",
@@ -661,7 +661,7 @@ app.layout = dbc.Container([
                       ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'}),
 
 
-                   ],md=12
+                   ],md=12,sm=12,xs=12
                ),
            ],
            align="center",
@@ -683,7 +683,7 @@ app.layout = dbc.Container([
                       ])
                       ])
 
-                  ],md=12
+                  ],md=12,sm=12,xs=12
               ),
           ],
           align="center",
