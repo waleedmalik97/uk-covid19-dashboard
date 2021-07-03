@@ -78,7 +78,7 @@ def news_scrape():
         div = soup.findAll('div',attrs={'class':'ssrcss-rjdkox-Stack e1y4nx260'})
 
         for p in div:
-            n = p.find('p',attrs={'class':None})
+            n = p.find('p',attrs={'class':'ssrcss-1q0x1qg-Paragraph eq5iqo00'})
             news_headline.append(n.text)
     return news_headline
 
