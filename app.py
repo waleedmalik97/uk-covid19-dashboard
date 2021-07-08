@@ -217,15 +217,15 @@ df_pillar_test = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaTy
 
 pillar_values = [df_pillar_test['cumPillarOneTestsByPublishDate'].iloc[0],df_pillar_test['cumPillarTwoTestsByPublishDate'].iloc[0],df_pillar_test['cumPillarThreeTestsByPublishDate'].iloc[0],df_pillar_test['cumPillarFourTestsByPublishDate'].iloc[0]]
 
-east_midland_covid = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=region&areaCode=E12000004&metric=cumCasesBySpecimenDate&metric=cumDeathsByDeathDate&format=csv')
-east_england_coivd = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=region&areaCode=E12000006&metric=cumCasesBySpecimenDate&metric=cumDeathsByDeathDate&format=csv')
-london_covid = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=region&areaCode=E12000007&metric=cumCasesBySpecimenDate&metric=cumDeathsByDeathDate&format=csv')
-north_east_covid = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=region&areaCode=E12000001&metric=cumCasesBySpecimenDate&metric=cumDeathsByDeathDate&format=csv')
-north_west_covid = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=region&areaCode=E12000002&metric=cumCasesBySpecimenDate&metric=cumDeathsByDeathDate&format=csv')
-south_east_covid = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=region&areaCode=E12000008&metric=cumCasesBySpecimenDate&metric=cumDeathsByDeathDate&format=csv')
-south_west_covid = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=region&areaCode=E12000009&metric=cumCasesBySpecimenDate&metric=cumDeathsByDeathDate&format=csv')
-west_midlands_covid = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=region&areaCode=E12000005&metric=cumCasesBySpecimenDate&metric=cumDeathsByDeathDate&format=csv')
-yorkshire_humber_covid = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=region&areaCode=E12000003&metric=cumCasesBySpecimenDate&metric=cumDeathsByDeathDate&format=csv')
+east_midland_covid = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=region&areaCode=E12000004&metric=cumCasesBySpecimenDate&metric=cumDailyNsoDeathsByDeathDate&format=csv')
+east_england_coivd = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=region&areaCode=E12000006&metric=cumCasesBySpecimenDate&metric=cumDailyNsoDeathsByDeathDate&format=csv')
+london_covid = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=region&areaCode=E12000007&metric=cumCasesBySpecimenDate&metric=cumDailyNsoDeathsByDeathDate&format=csv')
+north_east_covid = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=region&areaCode=E12000001&metric=cumCasesBySpecimenDate&metric=cumDailyNsoDeathsByDeathDate&format=csv')
+north_west_covid = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=region&areaCode=E12000002&metric=cumCasesBySpecimenDate&metric=cumDailyNsoDeathsByDeathDate&format=csv')
+south_east_covid = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=region&areaCode=E12000008&metric=cumCasesBySpecimenDate&metric=cumDailyNsoDeathsByDeathDate&format=csv')
+south_west_covid = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=region&areaCode=E12000009&metric=cumCasesBySpecimenDate&metric=cumDailyNsoDeathsByDeathDate&format=csv')
+west_midlands_covid = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=region&areaCode=E12000005&metric=cumCasesBySpecimenDate&metric=cumDailyNsoDeathsByDeathDate&format=csv')
+yorkshire_humber_covid = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=region&areaCode=E12000003&metric=cumCasesBySpecimenDate&metric=cumDailyNsoDeathsByDeathDate&format=csv')
 
 frames = [east_midland_covid,east_england_coivd,london_covid,north_east_covid,north_west_covid,south_east_covid,south_west_covid,west_midlands_covid,yorkshire_humber_covid]
 
@@ -237,63 +237,63 @@ for i in range(len(df_region_covid.index)):
         long.append(east_midlands_long)
         df = df_region_covid[df_region_covid['areaName'] == 'East Midlands']
         max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumDeathsByDeathDate'].max())
+        max_deaths.append(df['cumDailyNsoDeathsByDeathDate'].max())
 
     elif df_region_covid['areaName'].iloc[i] == 'East of England':
         lat.append(east_of_england_lat)
         long.append(east_of_england_long)
         df = df_region_covid[df_region_covid['areaName'] == 'East of England']
         max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumDeathsByDeathDate'].max())
+        max_deaths.append(df['cumDailyNsoDeathsByDeathDate'].max())
 
     elif df_region_covid['areaName'].iloc[i] == 'London':
         lat.append(london_lat)
         long.append(london_long)
         df = df_region_covid[df_region_covid['areaName'] == 'London']
         max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumDeathsByDeathDate'].max())
+        max_deaths.append(df['cumDailyNsoDeathsByDeathDate'].max())
 
     elif df_region_covid['areaName'].iloc[i] == 'North East':
         lat.append(north_east_lat)
         long.append(north_east_long)
         df = df_region_covid[df_region_covid['areaName'] == 'North East']
         max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumDeathsByDeathDate'].max())
+        max_deaths.append(df['cumDailyNsoDeathsByDeathDate'].max())
 
     elif df_region_covid['areaName'].iloc[i] == 'North West':
         lat.append(north_west_lat)
         long.append(norht_west_long)
         df = df_region_covid[df_region_covid['areaName'] == 'North West']
         max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumDeathsByDeathDate'].max())
+        max_deaths.append(df['cumDailyNsoDeathsByDeathDate'].max())
 
     elif df_region_covid['areaName'].iloc[i] == 'South East':
         lat.append(south_east_lat)
         long.append(south_east_long)
         df = df_region_covid[df_region_covid['areaName'] == 'South East']
         max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumDeathsByDeathDate'].max())
+        max_deaths.append(df['cumDailyNsoDeathsByDeathDate'].max())
 
     elif df_region_covid['areaName'].iloc[i] == 'South West':
         lat.append(south_west_lat)
         long.append(south_west_long)
         df = df_region_covid[df_region_covid['areaName'] == 'South West']
         max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumDeathsByDeathDate'].max())
+        max_deaths.append(df['cumDailyNsoDeathsByDeathDate'].max())
 
     elif df_region_covid['areaName'].iloc[i] == 'West Midlands':
         lat.append(west_midlands_lat)
         long.append(west_midlands_long)
         df = df_region_covid[df_region_covid['areaName'] == 'West Midlands']
         max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumDeathsByDeathDate'].max())
+        max_deaths.append(df['cumDailyNsoDeathsByDeathDate'].max())
 
     elif df_region_covid['areaName'].iloc[i] == 'Yorkshire and The Humber':
         lat.append(yorkshire_humber_lat)
         long.append(yorkshire_humber_long)
         df = df_region_covid[df_region_covid['areaName'] == 'Yorkshire and The Humber']
         max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumDeathsByDeathDate'].max())
+        max_deaths.append(df['cumDailyNsoDeathsByDeathDate'].max())
 
 
 df_region_covid['Latitude'] = lat
@@ -316,7 +316,7 @@ def update_map():
         hovertemplate="<b>%{text}</b><br><br>" +"Cases: %{customdata[0]}<br>" +"Deaths: %{customdata[1]}<br>"+ "<extra></extra>",
         showlegend=True,
         marker=go.scattermapbox.Marker(
-                size=df_by_Type['cumCasesBySpecimenDate']/10000,
+                size=15,
                 ),
         text=df_by_Type['areaName'],
         name = region_name
@@ -339,7 +339,7 @@ def update_map():
 
 
 fig_deaths = go.Figure(data=go.Heatmap(
-        z=df_region_covid['cumDeathsByDeathDate'],
+        z=df_region_covid['cumDailyNsoDeathsByDeathDate'],
         x=df_region_covid['date'],
         y=df_region_covid['areaName'],
         colorscale='Viridis'))
@@ -607,8 +607,8 @@ app.layout = dbc.Container([
                        html.Div([
                            html.Label(['Select Parameter'],style={'font-weight':'bold'}),
                            dcc.Dropdown(id='selectedParameter',
-                                        options=[{'label':'Cases','value':'cumCasesBySpecimenDate'},{'label':'Deaths','value':'cumDeathsByDeathDate'}],
-                                        value='cumDeathsByDeathDate')
+                                        options=[{'label':'Cases','value':'cumCasesBySpecimenDate'},{'label':'Deaths','value':'cumDailyNsoDeathsByDeathDate'}],
+                                        value='cumDailyNsoDeathsByDeathDate')
                        ], style={'width':'50%','display':'inline-block'}),
 
                        dcc.Graph(id='region-graph',config= {'displaylogo': False,'displayModeBar':False})
