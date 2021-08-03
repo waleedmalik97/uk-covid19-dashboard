@@ -218,15 +218,15 @@ df_pillar_test = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaTy
 
 pillar_values = [df_pillar_test['cumPillarOneTestsByPublishDate'].iloc[0],df_pillar_test['cumPillarTwoTestsByPublishDate'].iloc[0],df_pillar_test['cumPillarThreeTestsByPublishDate'].iloc[0],df_pillar_test['cumPillarFourTestsByPublishDate'].iloc[0]]
 
-east_midlands = os.path.join(os.path.dirname(os.path.abspath(__file__)),'east_midlands.csv')
-east_of_england = os.path.join(os.path.dirname(os.path.abspath(__file__)),'east_of_england.csv')
-london = os.path.join(os.path.dirname(os.path.abspath(__file__)),'london.csv')
-north_east = os.path.join(os.path.dirname(os.path.abspath(__file__)),'north_east.csv')
-north_west = os.path.join(os.path.dirname(os.path.abspath(__file__)),'north_west.csv')
-south_east = os.path.join(os.path.dirname(os.path.abspath(__file__)),'south_east.csv')
-south_west = os.path.join(os.path.dirname(os.path.abspath(__file__)),'south_west.csv')
-west_midlands = os.path.join(os.path.dirname(os.path.abspath(__file__)),'west_midlands.csv')
-yorkshire_and_humber = os.path.join(os.path.dirname(os.path.abspath(__file__)),'yorkshire_and_humber.csv')
+east_midlands = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/east_midlands.csv')
+east_of_england = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/east_of_england.csv')
+london = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/london.csv')
+north_east = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/north_east.csv')
+north_west = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/north_west.csv')
+south_east = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/south_east.csv')
+south_west = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/south_west.csv')
+west_midlands = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/west_midlands.csv')
+yorkshire_and_humber = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/yorkshire_and_humber.csv')
 
 east_midland_covid = pd.read_csv(east_midlands)
 east_england_coivd = pd.read_csv(east_of_england)
