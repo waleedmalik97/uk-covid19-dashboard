@@ -5,6 +5,7 @@ from dash.dependencies import Input, Output, State
 import plotly.graph_objs as go
 import dash_bootstrap_components as dbc
 import plotly.express as px
+import os
 #import dash_auth
 
 import pandas as pd
@@ -217,15 +218,25 @@ df_pillar_test = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaTy
 
 pillar_values = [df_pillar_test['cumPillarOneTestsByPublishDate'].iloc[0],df_pillar_test['cumPillarTwoTestsByPublishDate'].iloc[0],df_pillar_test['cumPillarThreeTestsByPublishDate'].iloc[0],df_pillar_test['cumPillarFourTestsByPublishDate'].iloc[0]]
 
-east_midland_covid = pd.read_csv('./data/east_midlands.csv')
-east_england_coivd = pd.read_csv('./data/east_of_england.csv')
-london_covid = pd.read_csv('./data/london.csv')
-north_east_covid = pd.read_csv('./data/north_east.csv')
-north_west_covid = pd.read_csv('./data/north_west.csv')
-south_east_covid = pd.read_csv('./data/south_east.csv')
-south_west_covid = pd.read_csv('./data/south_west.csv')
-west_midlands_covid = pd.read_csv('./data/west_midlands.csv')
-yorkshire_humber_covid = pd.read_csv('./data/yorkshire_and_humber.csv')
+east_midlands = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/east_midlands.csv')
+east_of_england = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/east_of_england.csv')
+london = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/london.csv')
+north_east = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/north_east.csv')
+north_west = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/north_west.csv')
+south_east = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/south_east.csv')
+south_west = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/south_west.csv')
+west_midlands = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/west_midlands.csv')
+yorkshire_and_humber = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/yorkshire_and_humber.csv')
+
+east_midland_covid = pd.read_csv(east_midlands)
+east_england_coivd = pd.read_csv(east_of_england)
+london_covid = pd.read_csv(london)
+north_east_covid = pd.read_csv(north_east)
+north_west_covid = pd.read_csv(north_west)
+south_east_covid = pd.read_csv(south_east)
+south_west_covid = pd.read_csv(south_west)
+west_midlands_covid = pd.read_csv(west_midlands)
+yorkshire_humber_covid = pd.read_csv(yorkshire_and_humber)
 
 frames = [east_midland_covid,east_england_coivd,london_covid,north_east_covid,north_west_covid,south_east_covid,south_west_covid,west_midlands_covid,yorkshire_humber_covid]
 
