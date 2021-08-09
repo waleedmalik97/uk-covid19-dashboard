@@ -1,4 +1,4 @@
-# uk-covid19-dashboard
+# Interactive Dashboard for UK Covid-19 Statistics built with Plotly Dash
 In this project, I've developed a dashboard using python libraries Plotly Dash which represents the overall situation of Covid-19 in the UK. This dashboard consists of
 1. Global comparisons of deaths and cases due to Covid-19.
 2. Headlines regarding Covid-19, scraped from BBC news.
