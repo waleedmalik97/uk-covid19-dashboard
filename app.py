@@ -136,7 +136,7 @@ for i in range(len(df_covid_global_cases_transposed.index)):
 df_covid_global_cases_transposed['date'] = df_covid_global_cases_transposed.index
 
 
-df_covid_cases_deaths = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=overview&metric=cumCasesByPublishDate&metric=cumOnsDeathsByRegistrationDate&format=csv')
+df_covid_cases_deaths = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=overview&metric=cumCasesByPublishDate&metric=cumDeaths60DaysByDeathDate&format=csv')
 
 df_covid_hospital_cap = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=overview&metric=plannedCapacityByPublishDate&format=csv')
 
@@ -248,63 +248,63 @@ for i in range(len(df_region_covid.index)):
         long.append(east_midlands_long)
         df = df_region_covid[df_region_covid['areaName'] == 'East Midlands']
         max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumOnsDeathsByRegistrationDate'].max())
+        max_deaths.append(df['cumDeaths60DaysByDeathDate'].max())
 
     elif df_region_covid['areaName'].iloc[i] == 'East of England':
         lat.append(east_of_england_lat)
         long.append(east_of_england_long)
         df = df_region_covid[df_region_covid['areaName'] == 'East of England']
         max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumOnsDeathsByRegistrationDate'].max())
+        max_deaths.append(df['cumDeaths60DaysByDeathDate'].max())
 
     elif df_region_covid['areaName'].iloc[i] == 'London':
         lat.append(london_lat)
         long.append(london_long)
         df = df_region_covid[df_region_covid['areaName'] == 'London']
         max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumOnsDeathsByRegistrationDate'].max())
+        max_deaths.append(df['cumDeaths60DaysByDeathDate'].max())
 
     elif df_region_covid['areaName'].iloc[i] == 'North East':
         lat.append(north_east_lat)
         long.append(north_east_long)
         df = df_region_covid[df_region_covid['areaName'] == 'North East']
         max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumOnsDeathsByRegistrationDate'].max())
+        max_deaths.append(df['cumDeaths60DaysByDeathDate'].max())
 
     elif df_region_covid['areaName'].iloc[i] == 'North West':
         lat.append(north_west_lat)
         long.append(norht_west_long)
         df = df_region_covid[df_region_covid['areaName'] == 'North West']
         max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumOnsDeathsByRegistrationDate'].max())
+        max_deaths.append(df['cumDeaths60DaysByDeathDate'].max())
 
     elif df_region_covid['areaName'].iloc[i] == 'South East':
         lat.append(south_east_lat)
         long.append(south_east_long)
         df = df_region_covid[df_region_covid['areaName'] == 'South East']
         max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumOnsDeathsByRegistrationDate'].max())
+        max_deaths.append(df['cumDeaths60DaysByDeathDate'].max())
 
     elif df_region_covid['areaName'].iloc[i] == 'South West':
         lat.append(south_west_lat)
         long.append(south_west_long)
         df = df_region_covid[df_region_covid['areaName'] == 'South West']
         max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumOnsDeathsByRegistrationDate'].max())
+        max_deaths.append(df['cumDeaths60DaysByDeathDate'].max())
 
     elif df_region_covid['areaName'].iloc[i] == 'West Midlands':
         lat.append(west_midlands_lat)
         long.append(west_midlands_long)
         df = df_region_covid[df_region_covid['areaName'] == 'West Midlands']
         max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumOnsDeathsByRegistrationDate'].max())
+        max_deaths.append(df['cumDeaths60DaysByDeathDate'].max())
 
     elif df_region_covid['areaName'].iloc[i] == 'Yorkshire and The Humber':
         lat.append(yorkshire_humber_lat)
         long.append(yorkshire_humber_long)
         df = df_region_covid[df_region_covid['areaName'] == 'Yorkshire and The Humber']
         max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumOnsDeathsByRegistrationDate'].max())
+        max_deaths.append(df['cumDeaths60DaysByDeathDate'].max())
 
 
 df_region_covid['Latitude'] = lat
@@ -351,7 +351,7 @@ def update_map():
 
 
 fig_deaths = go.Figure(data=go.Heatmap(
-        z=df_region_covid['cumOnsDeathsByRegistrationDate'],
+        z=df_region_covid['cumDeaths60DaysByDeathDate'],
         x=df_region_covid['date'],
         y=df_region_covid['areaName'],
         colorscale='Viridis',
@@ -620,8 +620,8 @@ app.layout = dbc.Container([
                        html.Div([
                            html.Label(['Select Parameter'],style={'font-weight':'bold'}),
                            dcc.Dropdown(id='selectedParameter',
-                                        options=[{'label':'Cases','value':'cumCasesBySpecimenDate'},{'label':'Deaths','value':'cumOnsDeathsByRegistrationDate'}],
-                                        value='cumOnsDeathsByRegistrationDate')
+                                        options=[{'label':'Cases','value':'cumCasesBySpecimenDate'},{'label':'Deaths','value':'cumDeaths60DaysByDeathDate'}],
+                                        value='cumDeaths60DaysByDeathDate')
                        ], style={'width':'50%','display':'inline-block'}),
 
                        dcc.Graph(id='region-graph',config= {'displaylogo': False,'displayModeBar':False})
