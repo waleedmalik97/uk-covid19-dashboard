@@ -140,7 +140,10 @@ df_covid_cases_deaths = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data
 
 df_covid_hospital_cap = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=overview&metric=plannedCapacityByPublishDate&format=csv')
 
-df_covid_age = pd.read_csv('https://files.digital.nhs.uk/2C/B16D0F/111%20Online%20Covid-19%20data_2021-05-17.csv')
+
+df_covid_age_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/111 Online Covid-19 data_2021-08-26.csv')
+
+df_covid_age = pd.read_csv(df_covid_age_path)
 
 df_covid_transmission = pd.read_csv('https://api.coronavirus.data.gov.uk/v2/data?areaType=overview&metric=transmissionRateMax&metric=transmissionRateMin&format=csv')
 
@@ -186,24 +189,24 @@ def update_graph_age():
     traces = []
     for age in df_covid_age['ageband'].unique():
         df_by_Type = df_covid_age[df_covid_age['ageband']==age]
-        traces.append(go.Scattergl(
-        x= df_by_Type['journeydate'],
+        traces.append(go.Histogram(
+        x= df_by_Type['sex'],
         y= df_by_Type['Total'],
-        mode='markers',
-        marker=dict(
-          # color='rgba(135, 206, 250, 0.5)',
-          size=12,
-          line=dict(
-                color='#000000',
-                width=1
-            )
-    ),
-        text=df_by_Type['sex'],
+        # mode='markers',
+    #     marker=dict(
+    #       # color='rgba(135, 206, 250, 0.5)',
+    #       # size=12,
+    #       line=dict(
+    #             color='#000000',
+    #             width=1
+    #         )
+    # ),
+        # text=df_by_Type['sex'],
         name = age
         ))
     fig = {
           'data': traces,
-          'layout': {'title': 'Cases'}
+          'layout': {'title': 'Cases','update_layout':{'barmode':'stack'}}
     }
 
     return fig
@@ -390,14 +393,14 @@ news.pop()
 
 app.layout = dbc.Container([
 
-      dcc.Tabs([
-          dcc.Tab(label='Data Visualzation',children=[
+      # dcc.Tabs([
+      #     dcc.Tab(label='Data Visualzation',children=[
 
 
            html.Div([
                      html.H1(['Dashboard for Covid-19 Statistics in UK'],style={'text-align':'center'}),
                      html.Hr(),
-
+                    ]),
 
 
           dbc.Row(
@@ -702,73 +705,10 @@ app.layout = dbc.Container([
               ),
           ],
           align="center",
-       ),
-
-
-       ])
-       ]),
-       dcc.Tab(label='Notes',children=[
-                 html.H1(['Notes'],style={'text-align':'center'}),
-                 html.Hr(),
-                 html.P(["The general source of data is gov.uk Corona section here you can find data for healthcare vaccination deaf and like this data is always updated accordingly it can also be accessed using API however, the data structure defers and in most cases needs further processing therefore it is better to download the data extract I'm transform for the purpose required."]),
-                 html.H3(["Data source links"],style={'margin-top':'20px','margin-bottom':'20px'}),
-                 html.A(href="https://coronavirus.data.gov.uk",children=["https://coronavirus.data.gov.uk"]),
-                 html.Br(),
-                 html.A(href="https://www.ons.gov.uk",children=["https://www.ons.gov.uk"]),
-                 html.Br(),
-                 html.A(href="https://files.digital.nhs.uk",children=["https://files.digital.nhs.uk"]),
-                 html.Br(),
-                 html.A(href="https://census.ukdataservice.ac.uk/",children=["https://census.ukdataservice.ac.uk/"]),
-                 html.H3(["Data Categories"],style={'margin-top':'20px','margin-bottom':'20px'}),
-                 html.P(["Most data from government sources or government is categorised."]),
-                 html.Ul(id='my-list0', children=[html.Li(["Hospital admissions"]),
-                                                 html.Li(["Vaccination"]),
-                                                 html.Li(["Infection rate"]),
-                                                 html.Li(["Demography"]),
-                                                 html.Li(["Lifestyle"]),
-                                                 html.Li(["Wellbeing"]),
-                                                 html.Li(["Death"]),
-                                                 html.Li(["Employment"]),
-                                                ]),
-
-                 html.H3(["Limitations"],style={'margin-top':'20px'}),
-                 html.Ul(id='my-list1', children=[html.Li(["Most of the data is not for analytical purposes such that what is referred to as data is just excel tables and information that does not make any sense for analytical purposes."]),
-                                                 html.Li(["Some data is small such that it would not give a full true picture for analytical purposes."]),
-                                                 html.Li(["Coronavirus data sources can be politically motivated that leads to confusion or inaccuracy."]),
-                                                 html.Li(["Some of the data is biased such it does not represent what is known to the public."]),
-                                                 html.Li(["Some sources provide data for misinformation purposes therefore it is clear that ethical issues always must be considered."])
-                                                ]),
-                 html.H3(["Advantages"],style={'margin-top':'20px'}),
-                 html.Ul(id='my-list2', children=[html.Li(["Government data sources are satisfied"]),
-                                                 html.Li(["Most data are pre-processed"]),
-                                                 html.Li(["Cumulative data shows better analytical and visualisation information"]),
-                                                 ]),
-                 html.H3(["References"],style={'margin-top':'20px','margin-bottom':'20px'}),
-                 html.P(["GOV.UK (2021) Healthcare (COVID-19) Available at: "],style={'display':'inline-block'}),
-                 html.A(href="https://coronavirus.data.gov.uk/details/healthcare",children=["https://coronavirus.data.gov.uk/details/healthcare"],style={'display':'inline-block'}),
-                 html.P(["(Accessed: 04 April 2021)"]),
-                 html.A(href="https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/conditionsanddiseases/articles/coronaviruscovid19/latestinsights#deaths",children=["https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/conditionsanddiseases/articles/coronaviruscovid19/latestinsights#deaths"],style={'display':'inline-block'}),
-                 html.P(["(Accessed: 04 April 2021)"]),
-                 html.P(["National Health Service (2021) Online Covid-19 data. Available at: "],style={'display':'inline-block'}),
-                 html.A(href="https://files.digital.nhs.uk/2C/B16D0F/111%20Online%20Covid-19%20data_2021-05-17.csv",children=["https://files.digital.nhs.uk/2C/B16D0F/111%20Online%20Covid-19%20data_2021-05-17.csv"],style={'display':'inline-block'}),
-                 html.P(["(Accessed: 10 April 2021)."]),
-                 html.P(["Office for National Statistics (2021) Death (COVID-19) Available at: "],style={'display':'inline-block'}),
-                 html.A(href="https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/conditionsanddiseases/articles/coronaviruscovid19/latestinsights#deaths",children=["https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/conditionsanddiseases/articles/coronaviruscovid19/latestinsights#deaths"],style={'display':'inline-block'}),
-                 html.P(["(Accessed: 04 April 2021)"]),
-                 html.P(["Office for National Statistics (2021) Hospital admissions with coronavirus (COVID-19) Available at: "],style={'display':'inline-block'}),
-                 html.A(href="https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/conditionsanddiseases/articles/coronaviruscovid19/latestinsights#hospitalisations",children=["https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/conditionsanddiseases/articles/coronaviruscovid19/latestinsights#hospitalisations"],style={'display':'inline-block'}),
-                 html.P(["(Accessed: 04 April 2021)"]),
-                 html.P(["Office for National Statistics (2021) Infection rate (COVID-19) Available at: "],style={'display':'inline-block'}),
-                 html.A(href="https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/conditionsanddiseases/articles/coronaviruscovid19/latestinsights#infections",children=["https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/conditionsanddiseases/articles/coronaviruscovid19/latestinsights#infections"],style={'display':'inline-block'}),
-                 html.P(["(Accessed: 04 April 2021)"]),
-                 html.P(["Office for National Statistics (2021) Vaccination (COVID-19) Available at: "],style={'display':'inline-block'}),
-                 html.A(href="https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/conditionsanddiseases/articles/coronaviruscovid19/latestinsights#vaccinations",children=["https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/conditionsanddiseases/articles/coronaviruscovid19/latestinsights#vaccinations"],style={'display':'inline-block'}),
-                 html.P(["(Accessed: 04 April 2021)"])
+       )
 
 
 
-       ])
-    ])
 ],fluid=True)
 
 
