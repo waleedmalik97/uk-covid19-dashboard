@@ -6,6 +6,7 @@ import plotly.graph_objs as go
 import dash_bootstrap_components as dbc
 import plotly.express as px
 import os
+import geojson
 #import dash_auth
 
 import pandas as pd
@@ -23,47 +24,10 @@ app.title = "UK Covid-19 Dashboard"
 #auth = dash_auth.BasicAuth(app,USERNAME_PASSWORD_PAIRS)
 server = app.server
 
-
-
 pd.options.mode.chained_assignment = None
-
-east_midlands_lat = 53.04866734731032
-east_midlands_long = -0.3978840853634538
-
-east_of_england_lat = 52.606720490397024
-east_of_england_long = -0.3461715851947895
-
-london_lat = 51.51531377744017
-london_long = -0.12838374135112424
-
-north_east_lat = 54.98698333647375
-north_east_long = -1.9561519604071589
-
-north_west_lat = 53.55028496786514
-norht_west_long = -2.6915952767655766
-
-south_east_lat = 51.201466251263
-south_east_long = -0.5551905356844653
-
-south_west_lat = 51.01732754212775
-south_west_long = -3.107320818731114
-
-west_midlands_lat = 52.49142499444439
-west_midlands_long = -1.8893821739877785
-
-yorkshire_humber_lat = 53.93539147485303
-yorkshire_humber_long = -1.0347626509310985
-
-
 
 news_headline =[]
 news =[]
-lat = []
-long = []
-max_cases = []
-max_deaths = []
-
-
 
 def news_scrape():
 
@@ -187,22 +151,12 @@ df_covid_age.drop('ccgname',axis=1,inplace=True)
 
 def update_graph_age():
     traces = []
-    for age in df_covid_age['ageband'].unique():
-        df_by_Type = df_covid_age[df_covid_age['ageband']==age]
+    for sex in df_covid_age['sex'].unique():
+        df_by_Type = df_covid_age[df_covid_age['sex']==sex]
         traces.append(go.Histogram(
-        x= df_by_Type['sex'],
+        x= df_by_Type['ageband'],
         y= df_by_Type['Total'],
-        # mode='markers',
-    #     marker=dict(
-    #       # color='rgba(135, 206, 250, 0.5)',
-    #       # size=12,
-    #       line=dict(
-    #             color='#000000',
-    #             width=1
-    #         )
-    # ),
-        # text=df_by_Type['sex'],
-        name = age
+        name = sex
         ))
     fig = {
           'data': traces,
@@ -231,6 +185,14 @@ south_west = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/south
 west_midlands = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/west_midlands.csv')
 yorkshire_and_humber = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/yorkshire_and_humber.csv')
 
+map_gj = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/UK_Coronavirus_(COVID-19)_Data.geojson')
+map_csv = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/UK_Coronavirus_(COVID-19)_Data.csv')
+
+df_map_cases = pd.read_csv(map_csv)
+
+with open(map_gj) as f:
+    gj = geojson.load(f)
+
 east_midland_covid = pd.read_csv(east_midlands)
 east_england_coivd = pd.read_csv(east_of_england)
 london_covid = pd.read_csv(london)
@@ -245,111 +207,16 @@ frames = [east_midland_covid,east_england_coivd,london_covid,north_east_covid,no
 
 df_region_covid = pd.concat(frames,ignore_index=True)
 
-for i in range(len(df_region_covid.index)):
-    if df_region_covid['areaName'].iloc[i] == 'East Midlands':
-        lat.append(east_midlands_lat)
-        long.append(east_midlands_long)
-        df = df_region_covid[df_region_covid['areaName'] == 'East Midlands']
-        max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumDeaths60DaysByDeathDate'].max())
-
-    elif df_region_covid['areaName'].iloc[i] == 'East of England':
-        lat.append(east_of_england_lat)
-        long.append(east_of_england_long)
-        df = df_region_covid[df_region_covid['areaName'] == 'East of England']
-        max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumDeaths60DaysByDeathDate'].max())
-
-    elif df_region_covid['areaName'].iloc[i] == 'London':
-        lat.append(london_lat)
-        long.append(london_long)
-        df = df_region_covid[df_region_covid['areaName'] == 'London']
-        max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumDeaths60DaysByDeathDate'].max())
-
-    elif df_region_covid['areaName'].iloc[i] == 'North East':
-        lat.append(north_east_lat)
-        long.append(north_east_long)
-        df = df_region_covid[df_region_covid['areaName'] == 'North East']
-        max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumDeaths60DaysByDeathDate'].max())
-
-    elif df_region_covid['areaName'].iloc[i] == 'North West':
-        lat.append(north_west_lat)
-        long.append(norht_west_long)
-        df = df_region_covid[df_region_covid['areaName'] == 'North West']
-        max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumDeaths60DaysByDeathDate'].max())
-
-    elif df_region_covid['areaName'].iloc[i] == 'South East':
-        lat.append(south_east_lat)
-        long.append(south_east_long)
-        df = df_region_covid[df_region_covid['areaName'] == 'South East']
-        max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumDeaths60DaysByDeathDate'].max())
-
-    elif df_region_covid['areaName'].iloc[i] == 'South West':
-        lat.append(south_west_lat)
-        long.append(south_west_long)
-        df = df_region_covid[df_region_covid['areaName'] == 'South West']
-        max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumDeaths60DaysByDeathDate'].max())
-
-    elif df_region_covid['areaName'].iloc[i] == 'West Midlands':
-        lat.append(west_midlands_lat)
-        long.append(west_midlands_long)
-        df = df_region_covid[df_region_covid['areaName'] == 'West Midlands']
-        max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumDeaths60DaysByDeathDate'].max())
-
-    elif df_region_covid['areaName'].iloc[i] == 'Yorkshire and The Humber':
-        lat.append(yorkshire_humber_lat)
-        long.append(yorkshire_humber_long)
-        df = df_region_covid[df_region_covid['areaName'] == 'Yorkshire and The Humber']
-        max_cases.append(df['cumCasesBySpecimenDate'].max())
-        max_deaths.append(df['cumDeaths60DaysByDeathDate'].max())
-
-
-df_region_covid['Latitude'] = lat
-df_region_covid['Longitude'] = long
-df_region_covid['Max Cases'] = max_cases
-df_region_covid['Max Deaths'] = max_deaths
-
 
 def update_map():
-    traces = []
 
-    for region_name in df_region_covid['areaName'].unique():
-        df_by_Type = df_region_covid[df_region_covid['areaName']==region_name]
-        traces.append(go.Scattermapbox(
-
-        lat=df_by_Type['Latitude'],
-        lon=df_by_Type['Longitude'],
-        mode='markers',
-        customdata=df_by_Type.loc[:, ['Max Cases','Max Deaths']],
-        hovertemplate="<b>%{text}</b><br><br>" +"Cases: %{customdata[0]}<br>" +"Deaths: %{customdata[1]}<br>"+ "<extra></extra>",
-        showlegend=True,
-        marker=go.scattermapbox.Marker(
-                # size=15,
-                size=df_by_Type['cumCasesBySpecimenDate']/10000
-                ),
-        text=df_by_Type['areaName'],
-        name = region_name
-        ))
-
-    return {'data': traces,
-             'layout': go.Layout(hovermode='closest',
-              height= 900,
-              mapbox=dict(
-                  accesstoken='pk.eyJ1IjoiZml2ZXJyY2xpZW50cyIsImEiOiJja292b2JrYXcwMGtrMnhuNnNjdXFzZTBnIn0.ZhARFeVwvqT_0VMWwgJouw',
-                  bearing=0,
-             center=go.layout.mapbox.Center(
-                        lat=55.378052,
-                        lon=-3.435973
-                ),
-            pitch=0,
-            zoom=5
-        ))}
+    fig = px.choropleth(df_map_cases, geojson=gj, color="cumCasesBySpecimenDate",
+                        locations="OBJECTID", featureidkey="properties.OBJECTID",
+                        projection="mercator",hover_data={'areaName':True,'cumCasesBySpecimenDate':True,'OBJECTID':False}
+                       )
+    fig.update_geos(fitbounds="locations", visible=False)
+    fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+    return fig
 
 
 
@@ -679,34 +546,25 @@ app.layout = dbc.Container([
                       ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'}),
 
 
-                   ],md=12
+                   ],md=6
+               ),
+               dbc.Col(
+                   [
+                       html.Div([
+                       html.Div([
+                       html.H2(['Covid-19 Infections with UK Region Map'],style={'font-size':'30px', 'font-weight':'bold'})
+                      ],style={'text-align':'center','margin-top':'20px','margin-left':'20px'}),
+
+                       html.Div([
+                       dcc.Graph(id = 'map',figure=update_map(),config= {'displaylogo': False,'displayModeBar':False})
+                       ])
+                       ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'})
+
+                   ],md=6
                ),
            ],
            align="center",
         ),
-
-
-        dbc.Row(
-          [
-
-              dbc.Col(
-                  [
-                      html.Div([
-                      html.Div([
-                      html.H2(['Covid-19 with UK Region Map'],style={'font-size':'30px', 'font-weight':'bold'})
-                     ],style={'text-align':'center','margin-top':'20px','margin-left':'20px'}),
-
-                      html.Div([
-                      dcc.Graph(id = 'map',figure=update_map(),config= {'displaylogo': False,'displayModeBar':False})
-                      ])
-                      ])
-
-                  ],md=12
-              ),
-          ],
-          align="center",
-       )
-
 
 
 ],fluid=True)
