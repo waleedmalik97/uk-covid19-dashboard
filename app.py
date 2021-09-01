@@ -267,7 +267,7 @@ app.layout = dbc.Container([
            html.Div([
                      html.H1(['Dashboard for Covid-19 Statistics in UK'],style={'text-align':'center'}),
                      html.Hr(),
-                    ]),
+                    
 
 
           dbc.Row(
@@ -276,8 +276,8 @@ app.layout = dbc.Container([
                 dbc.Col(
                     [
                         html.Div([
-                        html.H2(['Total Cases in World: {}'.format(df_cases_sum.iloc[-1])],style={'color':'orange','text-align':'center'}),
-                        html.H2(['Total Cases in United Kingdom: {}'.format(df_covid_cases_deaths['cumCasesByPublishDate'].iloc[0])],style={'color':'orange','text-align':'center'})
+                        html.H2(['Total Cases in World: {}'.format(df_cases_sum.iloc[-1])],style={'color':'orange','text-align':'center'},className="display-4"),
+                        html.H2(['Total Cases in United Kingdom: {}'.format(df_covid_cases_deaths['cumCasesByPublishDate'].iloc[0])],style={'color':'orange','text-align':'center'},className="display-4")
 
                         ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'}),
 
@@ -286,8 +286,8 @@ app.layout = dbc.Container([
                 dbc.Col(
                     [
                          html.Div([
-                          html.H2(['Total Deaths in World: {}'.format(df_death_sum.iloc[-1])],style={'color':'red','text-align':'center'}),
-                          html.H2(['Total Deaths in United Kingdom: {}'.format(df_covid_global_transposed['United Kingdom'].iloc[-1])],style={'color':'red','text-align':'center'})
+                          html.H2(['Total Deaths in World: {}'.format(df_death_sum.iloc[-1])],style={'color':'red','text-align':'center'},className="display-4"),
+                          html.H2(['Total Deaths in United Kingdom: {}'.format(df_covid_global_transposed['United Kingdom'].iloc[-1])],style={'color':'red','text-align':'center'},className="display-4")
                          ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'}),
 
                     ],md=6
@@ -308,7 +308,7 @@ app.layout = dbc.Container([
                         html.Div([
                         html.Div([
                         html.Div([
-                              html.H2(['Global Data for Cases of Covid-19'],style={'font-size':'30px', 'font-weight':'bold'})
+                              html.H2(['Global Data for Cases of Covid-19'],style={'font-size':'30px', 'font-weight':'bold'},className="display-4")
                         ],style={'text-align':'center','margin-top':'20px'}),
                         html.Label(['Select Country'],style={'font-weight':'bold'}),
                         dcc.Dropdown(id='country-dropdown-cases',
@@ -328,7 +328,7 @@ app.layout = dbc.Container([
                          html.Div([
                          html.Div([
                          html.Div([
-                               html.H2(['Global Data for Deaths from Covid-19'],style={'font-size':'30px', 'font-weight':'bold'})
+                               html.H2(['Global Data for Deaths from Covid-19'],style={'font-size':'30px', 'font-weight':'bold'},className="display-4")
                          ],style={'text-align':'center','margin-top':'20px'}),
                          html.Label(['Select Country'],style={'font-weight':'bold'}),
                          dcc.Dropdown(id='country-dropdown',
@@ -349,7 +349,7 @@ app.layout = dbc.Container([
                    [
                          html.Div([
                          html.Div([
-                         html.H2(['Headlines | Covid-19 as of Today In United Kingdom'],style={'font-size':'30px', 'font-weight':'bold'})
+                         html.H2(['Headlines | Covid-19 as of Today In United Kingdom'],style={'font-size':'30px', 'font-weight':'bold'},className="display-4")
                          ],style={'text-align':'center','margin-top':'20px'}),
                          html.Div(
                                   id="news",
@@ -376,7 +376,7 @@ app.layout = dbc.Container([
                        html.Div([
                        html.Div([
                        html.Div([
-                            html.H2(['Covid-19 Vaccination Progress'],style={'font-size':'30px', 'font-weight':'bold'})
+                            html.H2(['Covid-19 Vaccination Progress'],style={'font-size':'30px', 'font-weight':'bold'},className="display-4")
                         ],style={'text-align':'center','margin-top':'20px'}),
                             dcc.Graph(id='covid-pie-v',
                                       figure= {'data':[
@@ -404,7 +404,7 @@ app.layout = dbc.Container([
                         html.Div([
                         html.Div([
                         html.Div([
-                             html.H2(['Heatmap for Deaths in UK Regions'],style={'font-size':'30px', 'font-weight':'bold'})
+                             html.H2(['Heatmap for Deaths in UK Regions'],style={'font-size':'30px', 'font-weight':'bold'},className="display-4")
 
                         ],style={'text-align':'center','margin-top':'20px'})
                         ]),
@@ -430,7 +430,7 @@ app.layout = dbc.Container([
                         html.Div([
                         html.Div([
                         html.Div([
-                             html.H2(['Covid-19 Transmission Rate'],style={'font-size':'30px', 'font-weight':'bold'})
+                             html.H2(['Covid-19 Transmission Rate'],style={'font-size':'30px', 'font-weight':'bold'},className="display-4")
                          ],style={'text-align':'center','margin-top':'20px'}),
                              dcc.Graph(id='covid-bar-transmission', figure=fig_transmission,config= {'displaylogo': False,'displayModeBar':False})
 
@@ -445,7 +445,7 @@ app.layout = dbc.Container([
                         html.Div([
                         html.Div([
                         html.Div([
-                             html.H2(['Planned Daily Hospitalization Capacity for Covid-19 Patients'],style={'font-size':'30px', 'font-weight':'bold'})
+                             html.H2(['Planned Daily Hospitalization Capacity for Covid-19 Patients'],style={'font-size':'30px', 'font-weight':'bold'},className="display-4")
                          ],style={'text-align':'center','margin-top':'20px'}),
                              dcc.Graph(id='covid-hospital',
                                        figure= {'data':[
@@ -476,7 +476,7 @@ app.layout = dbc.Container([
                        html.Div([
                        html.Div([
                        html.Div([
-                       html.H2(['Covid-19 Patients Data for UK Regions'],style={'font-size':'30px', 'font-weight':'bold'})
+                       html.H2(['Covid-19 Patients Data for UK Regions'],style={'font-size':'30px', 'font-weight':'bold'},className="display-4")
                       ],style={'text-align':'center','margin-top':'20px','margin-left':'20px'})
 
                        ]),
@@ -504,7 +504,7 @@ app.layout = dbc.Container([
                         html.Div([
                         html.Div([
                         html.Div([
-                             html.H2(['Covid Occupied MV Beds'],style={'font-size':'30px', 'font-weight':'bold'})
+                             html.H2(['Covid Occupied MV Beds'],style={'font-size':'30px', 'font-weight':'bold'},className="display-4")
                          ],style={'text-align':'center','margin-top':'20px'}),
                              dcc.Graph(id='covid-bar',
                                        figure= {'data':[
@@ -537,7 +537,7 @@ app.layout = dbc.Container([
                       html.Div([
                       html.Div([
                       html.Div([
-                           html.H2(['Covid-19 Age Demographics'],style={'font-size':'30px', 'font-weight':'bold'})
+                           html.H2(['Covid-19 Age Demographics'],style={'font-size':'30px', 'font-weight':'bold'},className="display-4")
 
                       ],style={'text-align':'center','margin-top':'20px'})
                       ]),
@@ -552,7 +552,7 @@ app.layout = dbc.Container([
                    [
                        html.Div([
                        html.Div([
-                       html.H2(['Covid-19 Infections with UK Region Map'],style={'font-size':'30px', 'font-weight':'bold'})
+                       html.H2(['Covid-19 Infections with UK Region Map'],style={'font-size':'30px', 'font-weight':'bold'},className="display-4")
                       ],style={'text-align':'center','margin-top':'20px','margin-left':'20px'}),
 
                        html.Div([
@@ -565,9 +565,11 @@ app.layout = dbc.Container([
            ],
            align="center",
         ),
+                   
+      ],style={'background-color':'#F4F4F4'})
 
 
-],style={'background-color':'#F4F4F4'},fluid=True)
+],fluid=True)
 
 
 #Following code can be referred as Eventlisteners to all the dropdown menus.
