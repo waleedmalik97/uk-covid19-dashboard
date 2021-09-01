@@ -569,7 +569,7 @@ app.layout = dbc.Container([
                    
 
 
-],className="display-4",fluid=True)
+],fluid=True)
 
 
 #Following code can be referred as Eventlisteners to all the dropdown menus.
