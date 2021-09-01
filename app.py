@@ -17,7 +17,7 @@ from requests_html import HTMLSession
 
 #USERNAME_PASSWORD_PAIRS = [['username','password'],['zenalytiks','Zenalytiks888']]
 
-app = dash.Dash(__name__,external_stylesheets=[dbc.themes.BOOTSTRAP],meta_tags=[
+app = dash.Dash(__name__,external_stylesheets=[dbc.themes.CERULEAN],meta_tags=[
         {"name": "viewport", "content": "width=device-width, initial-scale=1"}
     ])
 app.title = "UK Covid-19 Dashboard"
@@ -567,7 +567,7 @@ app.layout = dbc.Container([
         ),
 
 
-],fluid=True)
+],style={'background-color':'#F4F4F4'},fluid=True)
 
 
 #Following code can be referred as Eventlisteners to all the dropdown menus.
