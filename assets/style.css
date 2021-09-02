@@ -36,6 +36,49 @@ li + li {
   border-top: 1px solid rgba(255,255,255,0.2);
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+
+.Select-control {
+    background-color: #282828;
+}
+
+
+/* changes the text color of input box */
+.Select-value-label {
+    color: #adafae !important;
+}
+
+.Select--single > .Select-control .Select-value, .Select-placeholder {
+    border: 1px solid grey;
+    border-radius: 4px;
+}
+
+
+/* dropdown menu options */
+.VirtualizedSelectOption {
+    background-color: #282828;
+    color: #adafae;
+ }
+
 
 
 
