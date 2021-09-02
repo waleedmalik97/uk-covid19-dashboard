@@ -17,7 +17,7 @@ from requests_html import HTMLSession
 
 #USERNAME_PASSWORD_PAIRS = [['username','password'],['zenalytiks','Zenalytiks888']]
 
-app = dash.Dash(__name__,external_stylesheets=[dbc.themes.CERULEAN],meta_tags=[
+app = dash.Dash(__name__,external_stylesheets=[dbc.themes.CYBORG],meta_tags=[
         {"name": "viewport", "content": "width=device-width, initial-scale=1"}
     ])
 app.title = "UK Covid-19 Dashboard"
@@ -126,22 +126,19 @@ fig_transmission.add_trace(go.Bar(x=df_covid_transmission['date'],
                 ))
 
 fig_transmission.update_layout(
-    xaxis_tickfont_size=14,
     yaxis=dict(
         title='Rate',
-        titlefont_size=16,
-        tickfont_size=14,
-    ),
-    legend=dict(
-        x=0,
-        y=1.0,
-        bgcolor='rgba(255, 255, 255, 0)',
-        bordercolor='rgba(255, 255, 255, 0)'
     ),
     barmode='group',
-    bargap=0.15, # gap between bars of adjacent location coordinates.
-    bargroupgap=0.1 # gap between bars of the same location coordinate.
+    bargap=0.15,
+    bargroupgap=0.1,
+    paper_bgcolor='#282828',
+    plot_bgcolor='#282828',
+    font=dict(color='#adafae')
 )
+
+fig_transmission.update_xaxes(gridcolor='rgba(61,61,61,0.2)',zerolinecolor='rgb(61,61,61)',zeroline=True,zerolinewidth=2)
+fig_transmission.update_yaxes(gridcolor='rgba(61,61,61,0.2)',zerolinecolor='rgb(61,61,61)',zeroline=True,zerolinewidth=2)
 
 df_covid_age.drop('ccgcode',axis=1,inplace=True)
 df_covid_age.drop('ccgname',axis=1,inplace=True)
@@ -160,7 +157,7 @@ def update_graph_age():
         ))
     fig = {
           'data': traces,
-          'layout': {'title': 'Cases','update_layout':{'barmode':'stack'}}
+          'layout': {'update_layout':{'barmode':'stack'},'paper_bgcolor':'#282828','plot_bgcolor':'#282828','font':{'color':'#adafae'},'yaxis':{'title':'Cases','gridcolor':'rgba(61,61,61,0.2)'},'xaxis':{'showgrid':False},'legend':{'title':{'text':'Age Bands'}}}
     }
 
     return fig
@@ -214,8 +211,8 @@ def update_map():
                         locations="OBJECTID", featureidkey="properties.OBJECTID",
                         projection="mercator",hover_data={'areaName':True,'cumCasesBySpecimenDate':True,'OBJECTID':False}
                        )
-    fig.update_geos(fitbounds="locations", visible=False)
-    fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+    fig.update_geos(fitbounds="locations", visible=False, bgcolor="#282828")
+    fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0},paper_bgcolor="#282828",plot_bgcolor="#282828",font=dict(color='#adafae'),coloraxis_colorbar_title="Total Cases")
     return fig
 
 
@@ -229,7 +226,13 @@ fig_deaths = go.Figure(data=go.Heatmap(
 
 fig_deaths.update_layout(
     title='Deaths in UK Regions',
-    xaxis_nticks=36)
+    xaxis_nticks=36,
+    paper_bgcolor='#282828',
+    plot_bgcolor='#282828',
+    font=dict(color='#adafae'))
+
+fig_deaths.update_xaxes(gridcolor='rgba(61,61,61,0.2)',zerolinecolor='rgb(61,61,61)',zeroline=True,zerolinewidth=2)
+fig_deaths.update_yaxes(gridcolor='rgba(61,61,61,0.2)',zerolinecolor='rgb(61,61,61)',zeroline=True,zerolinewidth=2)
 
 
 fig_cases = go.Figure(data=go.Heatmap(
@@ -240,11 +243,17 @@ fig_cases = go.Figure(data=go.Heatmap(
 
 fig_cases.update_layout(
     title='Cases in UK Regions',
-    xaxis_nticks=36)
+    xaxis_nticks=36,
+    paper_bgcolor='#282828',
+    plot_bgcolor='#282828',
+    font=dict(color='#adafae'))
+
+fig_cases.update_xaxes(gridcolor='rgba(61,61,61,0.2)',zerolinecolor='rgb(61,61,61)',zeroline=True,zerolinewidth=2)
+fig_cases.update_yaxes(gridcolor='rgba(61,61,61,0.2)',zerolinecolor='rgb(61,61,61)',zeroline=True,zerolinewidth=2)
 
 
-features_deaths = df_covid_global_transposed.columns                    #Making a list of all the columns of all data sets which are further to be used by
-features_cases = df_covid_global_cases_transposed.columns                #Dash core components like dropdown menus.
+features_deaths = df_covid_global_transposed.columns
+features_cases = df_covid_global_cases_transposed.columns
 
 
 news = news_scrape()
@@ -253,22 +262,12 @@ news.pop()
 news.pop()
 
 
-#Further from here i have designed the layout of my dashboard which includes dash html components and dash core components
-#HTML components behave in the same way as the regular HTML and these components also takes CSS as parameters.
-#If you are familiar with CSS then you can stylize it just as you want.
-#The attributes in regular HTML are given as parameters to these Dash html component.
-
 app.layout = dbc.Container([
 
-      # dcc.Tabs([
-      #     dcc.Tab(label='Data Visualzation',children=[
-
-
            html.Div([
-                     html.H1(['Dashboard for Covid-19 Statistics in UK'],style={'text-align':'center'}),
-                     html.Hr(),
-                   ]),
-                    
+                     html.H1(['Dashboard for Covid-19 Statistics in UK'],style={'text-align':'center','color':'#adafae'}),
+                     html.Hr(style={'background-color':'rgba(61,61,61,0.5)'}),
+                    ],style={'margin-top':'10px'}),
 
 
           dbc.Row(
@@ -276,149 +275,148 @@ app.layout = dbc.Container([
 
                 dbc.Col(
                     [
-                        html.Div([
-                        html.H2(['Total Cases in World: {}'.format(df_cases_sum.iloc[-1])],style={'color':'orange','text-align':'center'}),
-                        html.H2(['Total Cases in United Kingdom: {}'.format(df_covid_cases_deaths['cumCasesByPublishDate'].iloc[0])],style={'color':'orange','text-align':'center'})
+                        dbc.Card(
+                                dbc.CardBody(
+                                            [
+                                            html.H3(['Total Cases in World: {}'.format(df_cases_sum.iloc[-1])],style={'color':'orange','text-align':'center'}),
+                                            html.H3(['Total Cases in United Kingdom: {}'.format(df_covid_cases_deaths['cumCasesByPublishDate'].iloc[0])],style={'color':'orange','text-align':'center'})
 
-                        ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'}),
+                                            ]
+                                ),
+                        )
 
                     ],md=6
                 ),
                 dbc.Col(
                     [
-                         html.Div([
-                          html.H2(['Total Deaths in World: {}'.format(df_death_sum.iloc[-1])],style={'color':'red','text-align':'center'}),
-                          html.H2(['Total Deaths in United Kingdom: {}'.format(df_covid_global_transposed['United Kingdom'].iloc[-1])],style={'color':'red','text-align':'center'})
-                         ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'}),
+                         dbc.Card(
+                                  dbc.CardBody(
+                                               [
+                                                html.H3(['Total Deaths in World: {}'.format(df_death_sum.iloc[-1])],style={'color':'red','text-align':'center'}),
+                                                html.H3(['Total Deaths in United Kingdom: {}'.format(df_covid_global_transposed['United Kingdom'].iloc[-1])],style={'color':'red','text-align':'center'})
+
+                                               ]
+                                  )
+                         )
 
                     ],md=6
                 ),
-            ],
+            ],style={'margin-bottom':'20px'},
             align="center",
          ),
-
-
-
-
 
          dbc.Row(
            [
 
                dbc.Col(
                    [
-                        html.Div([
-                        html.Div([
-                        html.Div([
-                              html.H2(['Global Data for Cases of Covid-19'],style={'font-size':'30px', 'font-weight':'bold'})
-                        ],style={'text-align':'center','margin-top':'20px'}),
-                        html.Label(['Select Country'],style={'font-weight':'bold'}),
-                        dcc.Dropdown(id='country-dropdown-cases',
-                                     options=[{'label':i,'value':i} for i in features_cases],   #Here the multi-dropdown menu takes a dictionary of label and value pair that is mapped on the
-                                     value=['United Kingdom','Germany'],                              #columns of the datasets.
-                                     multi= True
+                        dbc.Card(
+                                dbc.CardBody(
+                                            [
+                                             html.H2(['Global Data for Cases of Covid-19'],style={'font-size':'30px', 'font-weight':'bold','text-align':'center'}),
+                                             html.Label(['Select Country'],style={'font-weight':'bold'}),
+                                             dcc.Dropdown(id='country-dropdown-cases',
+                                                          options=[{'label':i,'value':i} for i in features_cases],
+                                                          value=['United Kingdom','Germany'],
+                                                          multi= True,
+                                                          style={'background-color':'#282828'}
 
+                                             ),
+                                             dcc.Graph(id='global-covid-cases',config= {'displaylogo': False,'displayModeBar':False})
+                                            ]
+                                )
                         )
-                        ]),
-                         dcc.Graph(id='global-covid-cases',config= {'displaylogo': False,'displayModeBar':False})
-                         ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'}),
-
                    ],md=4
                ),
                dbc.Col(
                    [
-                         html.Div([
-                         html.Div([
-                         html.Div([
-                               html.H2(['Global Data for Deaths from Covid-19'],style={'font-size':'30px', 'font-weight':'bold'})
-                         ],style={'text-align':'center','margin-top':'20px'}),
-                         html.Label(['Select Country'],style={'font-weight':'bold'}),
-                         dcc.Dropdown(id='country-dropdown',
-                                      options=[{'label':i,'value':i} for i in features_deaths],
-                                      value=['United Kingdom','Germany'],
-                                      multi= True
+                        dbc.Card(
+                                dbc.CardBody(
+                                            [
+                                             html.H2(['Global Data for Deaths from Covid-19'],style={'font-size':'30px', 'font-weight':'bold','text-align':'center'}),
+                                             html.Label(['Select Country'],style={'font-weight':'bold'}),
+                                             dcc.Dropdown(id='country-dropdown',
+                                                          options=[{'label':i,'value':i} for i in features_deaths],
+                                                          value=['United Kingdom','Germany'],
+                                                          multi= True,
+                                                          style={'background-color':'#282828'}
 
-                         )
-                         ]),
-                         dcc.Graph(id='global-covid',config= {'displaylogo': False,'displayModeBar':False})
-                         ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'}),
-
-
+                                             ),
+                                             dcc.Graph(id='global-covid',config= {'displaylogo': False,'displayModeBar':False})
+                                            ]
+                                )
+                        )
                    ],md=4
                ),
 
                dbc.Col(
                    [
-                         html.Div([
-                         html.Div([
-                         html.H2(['Headlines | Covid-19 as of Today In United Kingdom'],style={'font-size':'30px', 'font-weight':'bold'})
-                         ],style={'text-align':'center','margin-top':'20px'}),
-                         html.Div(
-                                  id="news",
-                                  children=[                                                   #children is a parameter of Div component which means the very next nested element.
-                                  html.Ul(className='timeline', children=[html.Li(i) for i in news])
-                                  ]
-                         )
-                         ],style = {'height':'600px','padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px','overflow':'auto'}),
+                         dbc.Card(
+                                  dbc.CardBody(
+                                               [
+                                               html.H2(['Headlines | Covid-19 as of Today In United Kingdom'],style={'font-size':'30px', 'font-weight':'bold','text-align':'center'}),
+                                               html.Div(
+                                                        id="news",
+                                                        children=[
+                                                        html.Ul(className='timeline', children=[html.Li(i) for i in news])
+                                                        ]
+                                               )
 
+                                               ],style={'height':'600px','overflow':'auto'}
+                                  )
+                         )
                    ],md=4
                ),
-           ],
+           ],style={'margin-bottom':'20px'},
            align="center",
         ),
-
-
-
 
         dbc.Row(
           [
 
               dbc.Col(
                   [
-                       html.Div([
-                       html.Div([
-                       html.Div([
-                            html.H2(['Covid-19 Vaccination Progress'],style={'font-size':'30px', 'font-weight':'bold'})
-                        ],style={'text-align':'center','margin-top':'20px'}),
-                            dcc.Graph(id='covid-pie-v',
-                                      figure= {'data':[
-                                                  go.Pie(
-                                                  labels=['Complete','1st Dose','2nd Dose'],
-                                                  values= vaccinated_values
-                                                  )
-                                      ],'layout': go.Layout(title='Vaccination Stats')},config= {'displaylogo': False,'displayModeBar':False}),
+                       dbc.Card(
+                                dbc.CardBody(
+                                             [
+                                             html.H2(['Covid-19 Vaccination Progress'],style={'font-size':'30px', 'font-weight':'bold','text-align':'center'}),
+                                             dcc.Graph(id='covid-pie-v',
+                                                       figure= {'data':[
+                                                                   go.Pie(
+                                                                   labels=['Complete','1st Dose','2nd Dose'],
+                                                                   values= vaccinated_values
+                                                                   )
+                                                       ],'layout': go.Layout(title='Vaccination Stats',paper_bgcolor='#282828',plot_bgcolor='#282828',font=dict(color='#adafae'))},config= {'displaylogo': False,'displayModeBar':False}),
 
-                             dcc.Graph(id='covid-pie-t',
-                                       figure= {'data':[
-                                                   go.Pie(
-                                                   labels=['Pillar 1 Tests','Pillar 2 Tests','Pillar 3 Tests','Pillar 4 Tests'],
-                                                   values= pillar_values
-                                                   )
-                                       ],'layout': go.Layout(title='Testing Stats')},config= {'displaylogo': False,'displayModeBar':False})
+                                              dcc.Graph(id='covid-pie-t',
+                                                        figure= {'data':[
+                                                                    go.Pie(
+                                                                    labels=['Pillar 1 Tests','Pillar 2 Tests','Pillar 3 Tests','Pillar 4 Tests'],
+                                                                    values= pillar_values
+                                                                    )
+                                                        ],'layout': go.Layout(title='Testing Stats',paper_bgcolor='#282828',plot_bgcolor='#282828',font=dict(color='#adafae'))},config= {'displaylogo': False,'displayModeBar':False})
 
-                       ])
-                       ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'}),
+                                             ]
+                                )
+                       )
 
                   ],md=4
               ),
               dbc.Col(
                   [
-                        html.Div([
-                        html.Div([
-                        html.Div([
-                             html.H2(['Heatmap for Deaths in UK Regions'],style={'font-size':'30px', 'font-weight':'bold'})
+                        dbc.Card(
+                                dbc.CardBody(
+                                            [
+                                            html.H2(['Heatmap for Deaths in UK Regions'],style={'font-size':'30px', 'font-weight':'bold','text-align':'center'}),
+                                            dcc.Graph(id='covid-heat-d',figure=fig_deaths,config= {'displaylogo': False,'displayModeBar':False}),
+                                            dcc.Graph(id='covid-heat-c',figure=fig_cases,config= {'displaylogo': False,'displayModeBar':False})
 
-                        ],style={'text-align':'center','margin-top':'20px'})
-                        ]),
-
-                        dcc.Graph(id='covid-heat-d',figure=fig_deaths,config= {'displaylogo': False,'displayModeBar':False}),
-                        dcc.Graph(id='covid-heat-c',figure=fig_cases,config= {'displaylogo': False,'displayModeBar':False})
-                        ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'}),
-
-
-
+                                            ]
+                                )
+                        )
                   ],md=8
               ),
-          ],
+          ],style={'margin-bottom':'20px'},
           align="center",
        ),
 
@@ -428,45 +426,43 @@ app.layout = dbc.Container([
 
               dbc.Col(
                   [
-                        html.Div([
-                        html.Div([
-                        html.Div([
-                             html.H2(['Covid-19 Transmission Rate'],style={'font-size':'30px', 'font-weight':'bold'})
-                         ],style={'text-align':'center','margin-top':'20px'}),
-                             dcc.Graph(id='covid-bar-transmission', figure=fig_transmission,config= {'displaylogo': False,'displayModeBar':False})
+                        dbc.Card(
+                                dbc.CardBody(
+                                            [
+                                             html.H2(['Covid-19 Transmission Rate'],style={'font-size':'30px','font-weight':'bold','text-align':'center'}),
+                                              dcc.Graph(id='covid-bar-transmission', figure=fig_transmission,config= {'displaylogo': False,'displayModeBar':False})
 
-                        ])
-                        ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'}),
 
+                                            ]
+                                )
+                        )
 
                   ],md=6
               ),
               dbc.Col(
                   [
-                        html.Div([
-                        html.Div([
-                        html.Div([
-                             html.H2(['Planned Daily Hospitalization Capacity for Covid-19 Patients'],style={'font-size':'30px', 'font-weight':'bold'})
-                         ],style={'text-align':'center','margin-top':'20px'}),
-                             dcc.Graph(id='covid-hospital',
-                                       figure= {'data':[
-                                                   go.Scatter(
-                                                   x = df_covid_hospital_cap['date'],
-                                                   y = df_covid_hospital_cap['plannedCapacityByPublishDate'],
-                                                   mode='lines',
-                                                   )
-                                       ],'layout': go.Layout(title = 'Capacity')},config= {'displaylogo': False,'displayModeBar':False})
+                        dbc.Card(
+                                dbc.CardBody(
+                                            [
+                                             html.H2(['Planned Daily Hospitalization Capacity for Covid-19 Patients'],style={'font-size':'30px', 'font-weight':'bold','text-align':'center'}),
+                                             dcc.Graph(id='covid-hospital',
+                                                       figure= {'data':[
+                                                                   go.Scatter(
+                                                                   x = df_covid_hospital_cap['date'],
+                                                                   y = df_covid_hospital_cap['plannedCapacityByPublishDate'],
+                                                                   mode='lines',
+                                                                   )
+                                                       ],'layout': go.Layout(paper_bgcolor='#282828',plot_bgcolor='#282828',font=dict(color='#adafae'),yaxis=dict(title='Capacity',gridcolor='rgba(61,61,61,0.2)'),xaxis=dict(gridcolor='rgba(61,61,61,0.2)'))},config= {'displaylogo': False,'displayModeBar':False})
 
-                        ])
-                        ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'}),
-
+                                            ]
+                                )
+                        )
 
                   ],md=6
               ),
-          ],
+          ],style={'margin-bottom':'20px'},
           align="center",
        ),
-
 
 
         dbc.Row(
@@ -474,56 +470,55 @@ app.layout = dbc.Container([
 
               dbc.Col(
                   [
-                       html.Div([
-                       html.Div([
-                       html.Div([
-                       html.H2(['Covid-19 Patients Data for UK Regions'],style={'font-size':'30px', 'font-weight':'bold'})
-                      ],style={'text-align':'center','margin-top':'20px','margin-left':'20px'})
+                       dbc.Card(
+                                dbc.CardBody(
+                                            [
+                                             html.H2(['Covid-19 Patients Data for UK Regions'],style={'font-size':'30px', 'font-weight':'bold','text-align':'center'}),
+                                             html.Div([
+                                                 html.Label(['Select Region'],style={'font-weight':'bold','margin-right':'5px'}),
+                                                 dcc.Dropdown(id='selectedRegion',
+                                                              options=[{'label':i,'value':i} for i in df_region_covid['areaName'].unique()],
+                                                              value='London',
+                                                              style={'background-color':'#282828','margin-right':'5px'})
+                                             ], style={'width':'50%','display':'inline-block'}),
+                                             html.Div([
+                                                 html.Label(['Select Parameter'],style={'font-weight':'bold','margin-left':'5px'}),
+                                                 dcc.Dropdown(id='selectedParameter',
+                                                              options=[{'label':'Cases','value':'cumCasesBySpecimenDate'},{'label':'Deaths','value':'cumDeaths60DaysByDeathDate'}],
+                                                              value='cumDeaths60DaysByDeathDate',
+                                                              style={'background-color':'#282828','margin-left':'5px'})
+                                             ], style={'width':'50%','display':'inline-block'}),
+                                              dcc.Graph(id='region-graph',config= {'displaylogo': False,'displayModeBar':False})
 
-                       ]),
-                       html.Div([
 
-                           html.Label(['Select Region'],style={'font-weight':'bold'}),
-                           dcc.Dropdown(id='selectedRegion',
-                                        options=[{'label':i,'value':i} for i in df_region_covid['areaName'].unique()],
-                                        value='London')
-                       ], style={'width':'50%','display':'inline-block'}),
-                       html.Div([
-                           html.Label(['Select Parameter'],style={'font-weight':'bold'}),
-                           dcc.Dropdown(id='selectedParameter',
-                                        options=[{'label':'Cases','value':'cumCasesBySpecimenDate'},{'label':'Deaths','value':'cumDeaths60DaysByDeathDate'}],
-                                        value='cumDeaths60DaysByDeathDate')
-                       ], style={'width':'50%','display':'inline-block'}),
-
-                       dcc.Graph(id='region-graph',config= {'displaylogo': False,'displayModeBar':False})
-                    ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'}),
+                                            ]
+                                )
+                       )
 
                   ],md=6
               ),
               dbc.Col(
                   [
-                        html.Div([
-                        html.Div([
-                        html.Div([
-                             html.H2(['Covid Occupied MV Beds'],style={'font-size':'30px', 'font-weight':'bold'})
-                         ],style={'text-align':'center','margin-top':'20px'}),
-                             dcc.Graph(id='covid-bar',
-                                       figure= {'data':[
-                                                   go.Bar(
-                                                   x = df_occupied_beds['date'],
-                                                   y = df_occupied_beds['covidOccupiedMVBeds'],
-                                                   marker_color='rgb(26, 118, 255)',
-                                                   )
-                                       ],'layout': go.Layout(title = 'Number of MV Beds Occupied',bargap=0.5)},config= {'displaylogo': False,'displayModeBar':False})
+                        dbc.Card(
+                                dbc.CardBody(
+                                            [
+                                            html.H2(['Covid-Patients Occupied MV Beds'],style={'font-size':'30px','font-weight':'bold','text-align':'center'}),
+                                            dcc.Graph(id='covid-bar',
+                                                      figure= {'data':[
+                                                                  go.Bar(
+                                                                  x = df_occupied_beds['date'],
+                                                                  y = df_occupied_beds['covidOccupiedMVBeds'],
+                                                                  marker_color='rgb(26, 118, 255)',
+                                                                  )
+                                                      ],'layout': go.Layout(bargap=0.5,paper_bgcolor='#282828',plot_bgcolor='#282828',font=dict(color='#adafae'),yaxis=dict(title='Number of MV Beds Occupied',gridcolor='rgba(61,61,61,0.2)'),xaxis=dict(showgrid=False))},config= {'displaylogo': False,'displayModeBar':False})
 
-                        ])
-                        ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'}),
-
-
+                                            ]
+                                )
+                        )
 
                   ],md=6
               ),
-          ],
+          ],style={'margin-bottom':'20px'},
           align="center",
        ),
 
@@ -535,58 +530,55 @@ app.layout = dbc.Container([
 
                dbc.Col(
                    [
-                      html.Div([
-                      html.Div([
-                      html.Div([
-                           html.H2(['Covid-19 Age Demographics'],style={'font-size':'30px', 'font-weight':'bold'})
+                      dbc.Card(
+                               dbc.CardBody(
+                                            [
+                                             html.H2(['Covid-19 Age Demographics'],style={'font-size':'30px', 'font-weight':'bold','text-align':'center'}),
+                                             dcc.Graph(id='covid-age',figure=update_graph_age(),config= {'displaylogo': False,'displayModeBar':False})
 
-                      ],style={'text-align':'center','margin-top':'20px'})
-                      ]),
-
-                      dcc.Graph(id='covid-age',figure=update_graph_age(),config= {'displaylogo': False,'displayModeBar':False})
-                      ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'}),
-
-
+                                            ]
+                               )
+                      )
                    ],md=6
                ),
                dbc.Col(
                    [
-                       html.Div([
-                       html.Div([
-                       html.H2(['Covid-19 Infections with UK Region Map'],style={'font-size':'30px', 'font-weight':'bold'})
-                      ],style={'text-align':'center','margin-top':'20px','margin-left':'20px'}),
-
-                       html.Div([
-                       dcc.Graph(id = 'map',figure=update_map(),config= {'displaylogo': False,'displayModeBar':False})
-                       ])
-                       ],style={'padding':10,'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)','transition': '0.3s','border-radius': '5px','margin-top':'20px','margin-bottom':'20px'})
-
+                       dbc.Card(
+                                dbc.CardBody(
+                                            [
+                                             html.H2(['Covid-19 Infections with UK Region Map'],style={'font-size':'30px', 'font-weight':'bold','text-align':'center'}),
+                                             dcc.Graph(id = 'map',figure=update_map(),config= {'displaylogo': False,'displayModeBar':False})
+                                            ]
+                                )
+                       )
                    ],md=6
                ),
-           ],
+           ],style={'margin-bottom':'20px'},
            align="center",
         ),
-                   
 
 
 ],fluid=True)
 
 
-#Following code can be referred as Eventlisteners to all the dropdown menus.
-#app.callback takes the Output function which takes the ID's of the dash core components which in this case is graph
-#and take a list of Inputs which in this case are dropdown menus.
 
 @app.callback(Output('global-covid','figure'),
               [Input('country-dropdown','value')])
 
-def update_graph(country_name):   # Here the parameter "country_name" is passed the same parameter of Input i.e "value"
-    traces = []
+def update_graph(country_name):
+    fig = go.Figure()
     for tic in country_name:
-        traces.append({'x':df_covid_global_transposed['date'], 'y':df_covid_global_transposed[tic],'name':tic})   #Here i'm appending the list of columns to the multi-dropdown menu.
-    fig = {
-          'data': traces,
-          'layout': {'title':','.join(country_name)+' Deaths'}
-    }
+        fig.add_trace(go.Scatter(x=df_covid_global_transposed['date'],
+                                 y=df_covid_global_transposed[tic],
+                                 name=tic,
+                                 mode='lines'))
+
+        fig.update_layout(yaxis=dict(title="Deaths"),
+                         paper_bgcolor='#282828',
+                         plot_bgcolor='#282828',
+                         font=dict(color="#adafae"))
+        fig.update_xaxes(gridcolor='rgba(61,61,61,0.2)',zerolinecolor='rgb(61,61,61)',zeroline=True,zerolinewidth=2)
+        fig.update_yaxes(gridcolor='rgba(61,61,61,0.2)',zerolinecolor='rgb(61,61,61)',zeroline=True,zerolinewidth=2)
 
     return fig
 
@@ -595,13 +587,20 @@ def update_graph(country_name):   # Here the parameter "country_name" is passed 
               [Input('country-dropdown-cases','value')])
 
 def update_graph(country_name):
-    traces = []
+    fig = go.Figure()
     for tic in country_name:
-        traces.append({'x':df_covid_global_cases_transposed['date'], 'y':df_covid_global_cases_transposed[tic],'name':tic})
-    fig = {
-          'data': traces,
-          'layout': {'title':','.join(country_name)+' Cases'}
-    }
+        fig.add_trace(go.Scatter(x=df_covid_global_cases_transposed['date'],
+                                 y=df_covid_global_cases_transposed[tic],
+                                 name=tic,
+                                 mode='lines'))
+
+        fig.update_layout(yaxis=dict(title="Cases"),
+                         paper_bgcolor='#282828',
+                         plot_bgcolor='#282828',
+                         font=dict(color="#adafae"))
+        fig.update_xaxes(gridcolor='rgba(61,61,61,0.2)',zerolinecolor='rgb(61,61,61)',zeroline=True,zerolinewidth=2)
+        fig.update_yaxes(gridcolor='rgba(61,61,61,0.2)',zerolinecolor='rgb(61,61,61)',zeroline=True,zerolinewidth=2)
+
 
     return fig
 
@@ -611,10 +610,15 @@ def update_graph(country_name):
              [Input('selectedParameter','value')])
 
 def update_figure(region,parameter):
+
+    if parameter == "cumDeaths60DaysByDeathDate":
+        yaxis_title = "Deaths"
+    elif parameter == "cumCasesBySpecimenDate":
+        yaxis_title = "Cases"
     for region_name in df_region_covid['areaName'].unique():
         df_by_region = df_region_covid[df_region_covid['areaName']==region]
 
-    return {'data':[go.Bar(                                     #This is Plotly graph object. You can use any kind of graph here such as Bar, Heatmap etc.
+    return {'data':[go.Bar(
                     x=df_by_region['date'],
                     y=df_by_region[parameter],
                     marker_color='rgb(26, 118, 255)'
@@ -622,12 +626,16 @@ def update_figure(region,parameter):
     )]
 
     ,'layout':go.Layout(
-                        xaxis={'title':'Date'},
-                        yaxis={'title':parameter},
-                        hovermode='closest')
-                        }
+                        xaxis={'title':'Date','showgrid':False},
+                        yaxis={'title':yaxis_title,'gridcolor':'rgba(61,61,61,0.2)'},
+                        hovermode='closest',
+                        paper_bgcolor='#282828',
+                        plot_bgcolor='#282828',
+                        font=dict(color='#adafae')
+                        )
+            }
 
 
 
-if __name__ == "__main__":            # Here the App will run on the local server which then further can be viewed in the browser.
+if __name__ == "__main__":
     app.run_server()
