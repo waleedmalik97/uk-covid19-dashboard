@@ -129,6 +129,12 @@ fig_transmission.update_layout(
     yaxis=dict(
         title='Rate',
     ),
+    legend=dict(
+        x=0,
+        y=1.0,
+        bgcolor='rgba(255, 255, 255, 0)',
+        bordercolor='rgba(255, 255, 255, 0)'
+    ),
     barmode='group',
     bargap=0.15,
     bargroupgap=0.1,
