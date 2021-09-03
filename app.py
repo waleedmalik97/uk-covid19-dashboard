@@ -262,6 +262,31 @@ news.pop()
 news.pop()
 
 
+tabs_styles = {
+    'height': '44px',
+    'align-items': 'center',
+    'margin':'10px'
+}
+tab_style = {
+    'borderBottom': '1px solid #adafae',
+    'padding': '6px',
+    'fontWeight': 'bold',
+    'border-radius': '15px',
+    'background-color': '#282828',
+    'box-shadow': '0px 4px 8px 0px #adafae',
+    'margin':'10px'
+
+}
+
+tab_selected_style = {
+    'borderTop': '1px solid #adafae',
+    'borderBottom': '1px solid #adafae',
+    'backgroundColor': '#adafae',
+    'color': '#282828',
+    'padding': '6px',
+    'border-radius': '15px',
+}
+
 app.layout = dbc.Container([
 
            html.Div([
@@ -307,47 +332,53 @@ app.layout = dbc.Container([
 
          dbc.Row(
            [
-
                dbc.Col(
                    [
                         dbc.Card(
                                 dbc.CardBody(
                                             [
-                                             html.H2(['Global Data for Cases of Covid-19'],style={'font-size':'30px', 'font-weight':'bold','text-align':'center'}),
-                                             html.Label(['Select Country'],style={'font-weight':'bold'}),
-                                             dcc.Dropdown(id='country-dropdown-cases',
-                                                          options=[{'label':i,'value':i} for i in features_cases],
-                                                          value=['United Kingdom','Germany'],
-                                                          multi= True,
-                                                          style={'background-color':'#282828'}
+                                            html.H2(['Global Covid-19'],style={'font-size':'30px', 'font-weight':'bold','text-align':'center'}),
+                                            dcc.Tabs(
+                                                    [
+                                                    dcc.Tab(label="Global Cases",
+                                                            children=[
+                                                            html.Label(['Select Country'],style={'font-weight':'bold'}),
+                                                            dcc.Dropdown(id='country-dropdown-cases',
+                                                                         options=[{'label':i,'value':i} for i in features_cases],
+                                                                         value=['United Kingdom','Germany'],
+                                                                         multi= True,
+                                                                         style={'background-color':'#282828'}
 
-                                             ),
-                                             dcc.Graph(id='global-covid-cases',config= {'displaylogo': False,'displayModeBar':False})
+                                                            ),
+                                                            dcc.Graph(id='global-covid-cases',config= {'displaylogo': False,'displayModeBar':False})
+
+                                                            ],
+                                                            style = tab_style, selected_style = tab_selected_style
+                                                    ),
+                                                    dcc.Tab(label="Global Deaths",
+                                                            children=[
+                                                             html.Label(['Select Country'],style={'font-weight':'bold'}),
+                                                             dcc.Dropdown(id='country-dropdown',
+                                                                          options=[{'label':i,'value':i} for i in features_deaths],
+                                                                          value=['United Kingdom','Germany'],
+                                                                          multi= True,
+                                                                          style={'background-color':'#282828'}
+
+                                                             ),
+                                                             dcc.Graph(id='global-covid',config= {'displaylogo': False,'displayModeBar':False})
+
+                                                            ],
+                                                            style = tab_style, selected_style = tab_selected_style
+                                                    )
+                                                    ],style = tabs_styles
+                                            )
+
                                             ]
                                 )
                         )
-                   ],md=4
+                   ],md=8
                ),
-               dbc.Col(
-                   [
-                        dbc.Card(
-                                dbc.CardBody(
-                                            [
-                                             html.H2(['Global Data for Deaths from Covid-19'],style={'font-size':'30px', 'font-weight':'bold','text-align':'center'}),
-                                             html.Label(['Select Country'],style={'font-weight':'bold'}),
-                                             dcc.Dropdown(id='country-dropdown',
-                                                          options=[{'label':i,'value':i} for i in features_deaths],
-                                                          value=['United Kingdom','Germany'],
-                                                          multi= True,
-                                                          style={'background-color':'#282828'}
 
-                                             ),
-                                             dcc.Graph(id='global-covid',config= {'displaylogo': False,'displayModeBar':False})
-                                            ]
-                                )
-                        )
-                   ],md=4
-               ),
 
                dbc.Col(
                    [
@@ -362,7 +393,7 @@ app.layout = dbc.Container([
                                                         ]
                                                )
 
-                                               ],style={'height':'600px','overflow':'auto'}
+                                               ],style={'height':'660px','overflow':'auto'}
                                   )
                          )
                    ],md=4
@@ -512,7 +543,7 @@ app.layout = dbc.Container([
                                                                   )
                                                       ],'layout': go.Layout(bargap=0.5,paper_bgcolor='#282828',plot_bgcolor='#282828',font=dict(color='#adafae'),yaxis=dict(title='Number of MV Beds Occupied',gridcolor='rgba(61,61,61,0.2)'),xaxis=dict(showgrid=False))},config= {'displaylogo': False,'displayModeBar':False})
 
-                                            ]
+                                            ],style={'height':'600px'}
                                 )
                         )
 
@@ -558,7 +589,8 @@ app.layout = dbc.Container([
         ),
 
 
-],fluid=True)
+],style={'font-family':'Oswald'},
+fluid=True)
 
 
 
@@ -638,4 +670,4 @@ def update_figure(region,parameter):
 
 
 if __name__ == "__main__":
-    app.run_server()
+    app.run_server(debug=True)
