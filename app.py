@@ -603,7 +603,7 @@ app.layout = dbc.Container([
         ),
 
 
-],style={'font-family':'Garamond'},
+],style={'font-family':'Oswald'},
 fluid=True)
 
 
