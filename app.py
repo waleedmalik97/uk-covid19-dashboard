@@ -19,7 +19,11 @@ from requests_html import HTMLSession
 
 app = dash.Dash(__name__,external_stylesheets=[dbc.themes.CYBORG],meta_tags=[
         {"name": "viewport", "content": "width=device-width, initial-scale=1"},
-        {"property": "og:image","content": "https://i.ibb.co/SXLDNvY/dash-img.jpg"}
+        {"property": "og:title", "content": "UK Covid-19 Dashboard"},
+        {"property": "og:type", "content": "website"},
+        {"property": "og:url", "content": "https://uk-covid19-dashboard.herokuapp.com/"},
+        {"property": "og:image","content": "https://i.ibb.co/SXLDNvY/dash-img.jpg"},
+        {"property": "og:description", "content": "A dashboard representing the overall situation of Covid-19 in the UK."}
     ])
 app.title = "UK Covid-19 Dashboard"
 #auth = dash_auth.BasicAuth(app,USERNAME_PASSWORD_PAIRS)
