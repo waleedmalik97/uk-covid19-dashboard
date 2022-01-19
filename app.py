@@ -19,13 +19,13 @@ from requests_html import HTMLSession
 
 app = dash.Dash(__name__,external_stylesheets=[dbc.themes.CYBORG],meta_tags=[
         {"name": "viewport", "content": "width=device-width, initial-scale=1"},
-        {"property": "og:title", "content": "UK Covid-19 Dashboard"},
-        {"property": "og:type", "content": "website"},
-        {"property": "og:url", "content": "https://uk-covid19-dashboard.herokuapp.com/"},
-        {"property": "og:image","content": "https://i.ibb.co/SXLDNvY/dash-img.jpg"},
-        {"property": "og:image:width", "content":"1200"},
-        {"property": "og:image:height", "content":"630"},
-        {"property": "og:description", "content": "A dashboard representing the overall situation of Covid-19 in the UK."}
+        {"prefix": "og: http://ogp.me/ns#","property": "og:title", "content": "UK Covid-19 Dashboard"},
+        {"prefix": "og: http://ogp.me/ns#","property": "og:type", "content": "website"},
+        {"prefix": "og: http://ogp.me/ns#","property": "og:url", "content": "https://uk-covid19-dashboard.herokuapp.com/"},
+        {"prefix": "og: http://ogp.me/ns#","property": "og:image","content": "https://i.ibb.co/SXLDNvY/dash-img.jpg"},
+        {"prefix": "og: http://ogp.me/ns#","property": "og:image:width", "content":"1200"},
+        {"prefix": "og: http://ogp.me/ns#","property": "og:image:height", "content":"630"},
+        {"prefix": "og: http://ogp.me/ns#","property": "og:description", "content": "A dashboard representing the overall situation of Covid-19 in the UK."}
     ])
 app.title = "UK Covid-19 Dashboard"
 #auth = dash_auth.BasicAuth(app,USERNAME_PASSWORD_PAIRS)
