@@ -22,10 +22,8 @@ app = dash.Dash(__name__,external_stylesheets=[dbc.themes.CYBORG],meta_tags=[
         {"property": "og:title", "content": "UK Covid-19 Dashboard"},
         {"property": "og:type", "content": "website"},
         {"property": "og:url", "content": "https://uk-covid19-dashboard.herokuapp.com/"},
-        {"property": "og:image","content": "https://i.ibb.co/yPh2nBS/dash-img-1200x627.jpg"},
-        # {"prefix": "og: http://ogp.me/ns#","property": "og:image:width", "content":"1200"},
-        # {"prefix": "og: http://ogp.me/ns#","property": "og:image:height", "content":"627"},
-        {"property": "og:description", "content": "A dashboard representing the overall situation of Covid-19 in the UK."}
+        {"property": "og:image","content": "https://live.staticflickr.com/65535/51830937951_6dd1027bee_k.jpg"},
+        {"property": "og:description", "content": "A dashboard that shows the overall statistics of Covid-19 in the UK."}
     ])
 app.title = "UK Covid-19 Dashboard"
 #auth = dash_auth.BasicAuth(app,USERNAME_PASSWORD_PAIRS)
