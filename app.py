@@ -23,6 +23,8 @@ app = dash.Dash(__name__,external_stylesheets=[dbc.themes.CYBORG],meta_tags=[
         {"property": "og:type", "content": "website"},
         {"property": "og:url", "content": "https://uk-covid19-dashboard.herokuapp.com/"},
         {"property": "og:image","content": "https://i.ibb.co/SXLDNvY/dash-img.jpg"},
+        {"property": "og:image:width", "content":"1200"},
+        {"property": "og:image:height", "content":"630"},
         {"property": "og:description", "content": "A dashboard representing the overall situation of Covid-19 in the UK."}
     ])
 app.title = "UK Covid-19 Dashboard"
