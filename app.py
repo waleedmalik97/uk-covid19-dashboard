@@ -45,11 +45,10 @@ def news_scrape():
 
         soup = BeautifulSoup(response.content,'html.parser')
 
-        div = soup.findAll('div',attrs={'class':'ssrcss-1cbga70-Stack e1y4nx260'})
+        ul = soup.find('ul',attrs={'class':'ssrcss-1020bd1-Stack e1y4nx260'})
 
-        for p in div:
-            n = p.find('p',attrs={'class':'ssrcss-1q0x1qg-Paragraph eq5iqo00'})
-            news_headline.append(n.text)
+        for p in ul.findAll('p',attrs={'class':'ssrcss-1q0x1qg-Paragraph eq5iqo00'}):
+            news_headline.append(p.text)
     return news_headline
 
 
